@@ -31,7 +31,7 @@ class CommentForm extends Component{
 
     handleSubmit(values){
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
 
         }  
 
@@ -56,10 +56,10 @@ class CommentForm extends Component{
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Col md={12}><Label htmlFor="yourname" >Your Name</Label></Col>
+                                <Col md={12}><Label htmlFor="author" >Your Name</Label></Col>
                                 <Col md={12}>
-                                    <Control.text model=".yourname" name="yourname" 
-                                    className="form-control" id="yourname" 
+                                    <Control.text model=".author" name="author" 
+                                    className="form-control" id="author" 
                                     placeholder="Your Name"
                                     validators={{
                                         required, minLength: minLength(3), maxLength: maxLength(15)
@@ -97,12 +97,12 @@ class CommentForm extends Component{
 }
 
 
-function RenderComments({comments, addComment, dishId}) {
+function RenderComments({comments, postComment, dishId}) {
     const com = comments.map((item) => {
             return(
                 <div key={item.id}>
                     <p>{item.comment}</p>
-                    <p>--{item.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(item.date)))} </p>
+                    <p>{item.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(item.date)))} </p>
                 </div>
             );
         });
@@ -112,7 +112,7 @@ function RenderComments({comments, addComment, dishId}) {
                     <h4>Comments</h4>
                     {com}
                     <div className="col-12 col-md-5">
-                    <CommentForm dishId={dishId} addComment={addComment} />
+                    <CommentForm dishId={dishId} postComment={postComment} />
                     </div>
                 </div>
             );
@@ -181,7 +181,7 @@ function RenderComments({comments, addComment, dishId}) {
                             <RenderDish dish = {props.dish} />
                         </div>
                         <div className="col-12  col-md-5 m-1">
-                        <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id}
+                        <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id}
                                 />                        
                         </div>
                     </div>
